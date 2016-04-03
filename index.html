@@ -15,13 +15,15 @@
 		</div>
 	
 		<div class="text">
-			<form>
-				<div class="directions">Enter your cell phone number, without spaces or parentheses.</div>
+			<form action="/sms" method="POST">
+				<div class="directions">Enter your cell phone number. No dashes, spaces, or parentheses please.</div>
 				<div id="boxes">
-					<textarea class="falseInput" name="Number1" readonly="true">+1</textarea>
+					<!-- <textarea class="falseInput" name="Number1" readonly="true">+1</textarea>
 					<textarea class="input3 input" name="Number2" maxlength="3" placeholder="xxx"></textarea>
 					<textarea class="input3 input" name="Number3" maxlength="3" placeholder="xxx"></textarea>
-					<textarea class="input4 input" name="Number4" maxlength="10" placeholder="xxxx"></textarea>
+					<textarea class="input4 input" name="Number4" maxlength="10" placeholder="xxxx"></textarea> -->
+					<textarea class="falseInput" name="" readonly="true">+1</textarea>
+					<textarea class="input1 input" name="Number1" maxlength="10" placeholder="ur_#_gooz_heer"></textarea>
 				</div>
 			</form>
 			<button id="button">---> I'm ready for my first puzzle!</button>
