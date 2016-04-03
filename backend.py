@@ -9,21 +9,13 @@ app = Flask(__name__)
 def hello():
 	return render_template("index.html")
 	
-	
 @app.route('/sms', methods=["POST"])
 def sms():
-        print("IN")
-	Number = request.form['Number1']
-	print("IN2")
-	#Answer = request.form['Answer']
-	print("IN3")
+	Number = "+1"+str(request.form['Number1'])
 	client = TwilioRestClient("ACd6f0c8c85add0a0e31a2d7e1205aaf3e", "0cc58ee26f28be4873d169f0d2f196f9")
-        print("IN4")
-	message = client.messages.create(to="+1" + str(Number), from_="+17328585355", body="Welcome to CTS (Capture The Swag)!")
-        print("IN5")
-        toAdd = "**add**:" + Number
-        print("IN6")
-        client.messages.create(to="+17328585355", from_="+17328585355", body=toAdd)
+	message = client.messages.create(to=Number, from_="+17328585355", body="Welcome to CTS (Capture The Swag)!")
+	toAdd = "**add**: "+Number
+	client.messages.create(to="+17328585355", from_="+17328585355", body=toAdd)
 	return "OK"
 	
 @app.route('/change')
