@@ -1,4 +1,5 @@
 import CTF
+import time
 from twilio.rest import TwilioRestClient
 
 server_number = "+17328585355"
@@ -10,17 +11,31 @@ server = TwilioRestClient(account_sid, auth_key)
 
 mainCTF = CTF.Game()
 
+
 def main_loop():
 
+    for i in server.messages.list():
+        server.messages.delete_instance(i.sid)
+
+    nextIndex = -1
+    
     while True:
-        messages = server.messages.list()
+        if len(server.messages.list()) > nextIndex + 1:
+            messages = server.messages.list()[nextIndex:]
+        else:
+            messages = server.messages.list()
+
+        sid = []
+
+        print(len(messages))
 
         for m in messages:
-            print(m.body)
             if isValid(m.body):
                 #Check if it is a request for new member
                 if isRequest(m.body):
-                    mainCTF.addPlayer(CTF.Player(parseRequest(m.body)))
+                    p = CTF.Player(parseRequest(m.body))
+                    mainCTF.addPlayer(p)
+                    mainCTF.assignQuestion(p.number)
                 elif isPuzzle(m.body):
                     print("IT IS A PUZZLE")
                     question, flag = parsePuzzle(m.body)
@@ -29,8 +44,12 @@ def main_loop():
                     mainCTF.answer(m.from_, m.body)
                 mainCTF.printPlayers()
                 mainCTF.printQuestions()
-            server.messages.delete_instance(m.sid)
-            print('e')
+            sid += [m.sid]
+            nextIndex += 1
+
+        time.sleep(10)
+
+            
 
 def isValid(message):
     return not "Thanks for the message." in message

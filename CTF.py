@@ -1,5 +1,6 @@
 from twilio.rest import TwilioRestClient
 import random
+import time
 
 server_number = "+17328585355"
 
@@ -14,8 +15,11 @@ class Game:
         self.questions = {}
 
     def addPlayer(self, player):
-        if not player in self.players:
-            self.players += [player]
+        print("ADDING: " + str(player.number))
+        for p in self.players:
+            if p.number == player.number:
+                return
+        self.players += [player]
 
     def addQuestion(self, question, flag):
         flag = self.formatFlag(flag)
@@ -40,13 +44,20 @@ class Game:
     def assignQuestion(self, playerNumber):
         for p in self.players:
             if p.number == playerNumber:
-                if len(p.questions) != len(questions):
-                    question = random.randint(0, len(questions) - 1)
-                    while not p.hasAnswered(question):
-                        question = random.randint(0, len(questions) - 1)
-                    p.send(question)
+                if len(p.questions) != len(self.questions) and p.inProgress == False:
+                    print("ASSIGNING")
+                    print(p.inProgress)
+                    time.sleep(2)
+                    question = self.questions.keys()[random.randint(0, len(self.questions) - 1)]
+                    while p.hasAnswered(question):
+                        print(question)
+                        question = self.questions.keys()[random.randint(0, len(self.questions) - 1)]
+                    p.send(question, True)
+                    p.inProgress = True
+                    return
                 else:
-                    p.send("You have answered all questions currently available")
+                    p.send("You have answered all questions currently available", False)
+                    p.inProgress = False
                 break
                         
 
@@ -65,14 +76,18 @@ class Player:
     def __init__(self, number):
         self.number = number
         self.questions = []
+        self.inProgress = False
 
-    def send(self, question):
-        server.messages.create(to=self.number, from_=server_number, body=question.text)
-        self.questions += [question]
+    def send(self, question, asking):
+        print("PROGRESS: " + str(self.inProgress))
+        print("QUESTION: " + question)
+        server.messages.create(to=self.number, from_=server_number, body=question)
+        if asking:
+            self.questions += [question]
 
 
     def hasAnswered(self, question):
-        for i in questions:
+        for i in self.questions:
             if i == question:
                 return True
         return False
