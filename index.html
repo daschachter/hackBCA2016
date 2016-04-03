@@ -7,21 +7,36 @@
 </head>
 
 <body>
-	<h1 class="header">Welcome to Capture the Swag</h1>
-	<div>Real life, real puzzles</div>
+	<div class="screen">
+		<div class="header">
+			<div id="title">Welcome to Capture the <span class="explode">Swag!</span></div>
+
+			<div class="subtitle">Real puzzles, real life</div>
+		</div>
 	
-	<form>
-		<div>Enter your cell phone number without spaces</div>
-		<textarea id="input" name="Number"></textarea>
-	</form>
+		<div class="text">
+			<form>
+				<div class="directions">Enter your cell phone number, without spaces or parentheses.</div>
+				<div id="boxes">
+					<textarea class="falseInput" name="Number1" readonly="true">+1</textarea>
+					<textarea class="input3 input" name="Number2" maxlength="3" placeholder="xxx"></textarea>
+					<textarea class="input3 input" name="Number3" maxlength="3" placeholder="xxx"></textarea>
+					<textarea class="input4 input" name="Number4" maxlength="10" placeholder="xxxx"></textarea>
+				</div>
+			</form>
+			<button id="button">---> I'm ready for my first puzzle!</button>
+		</div>
+		
+		
+	</div>
 
 	<!--<form>
 		<p>Enter your </p>
 		<textarea name="Answer"></textarea>
 	</form>
-	-->
+-->
 
-	<button>Submit</button>
 
-	</body>
-	</html>
+
+</body>
+</html>
