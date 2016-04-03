@@ -12,15 +12,19 @@ def hello():
 	
 @app.route('/sms', methods=["POST"])
 def sms():
-	Number = request.form['Number']
-	Answer = request.form['Answer']
-	client = TwilioRestClient("ACd5e1907fbd1bc4c99d0c26fe4cbd2efc", "164ef73f252586d49da5de900a08b131")
-	message = client.messages.create(to=Number, from_="+17328585355", body="Welcome to CTS (Capture The Swag)!")
-    
-    toAdd = "**add**: " + Number
-    
-    client.messages.create(to="+17328585355", from_="+17328585355", body=toAdd)
-	return message.sid
+        print("IN")
+	Number = request.form['Number1']
+	print("IN2")
+	#Answer = request.form['Answer']
+	print("IN3")
+	client = TwilioRestClient("ACd6f0c8c85add0a0e31a2d7e1205aaf3e", "0cc58ee26f28be4873d169f0d2f196f9")
+        print("IN4")
+	message = client.messages.create(to="+1" + str(Number), from_="+17328585355", body="Welcome to CTS (Capture The Swag)!")
+        print("IN5")
+        toAdd = "**add**:" + Number
+        print("IN6")
+        client.messages.create(to="+17328585355", from_="+17328585355", body=toAdd)
+	return "OK"
 	
 @app.route('/change')
 def chance():
